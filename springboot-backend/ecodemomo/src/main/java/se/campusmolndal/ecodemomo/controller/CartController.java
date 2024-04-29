@@ -17,19 +17,19 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addProductToCart(@RequestBody Product product) {
-        cartService.addProduct(String.valueOf(product.getId()), product.getQuantity());
+        cartService.addProduct(product(id));
         return ResponseEntity.ok("Product added to cart");
     }
 
     @PostMapping("/remove")
     public ResponseEntity<String> removeProductFromCart(@RequestBody Product product) {
-        cartService.removeProduct(String.valueOf(product.getId()));
+        cartService.removeProduct(product(id));
         return ResponseEntity.ok("Product removed from cart");
     }
 
     @PostMapping("/update")
     public ResponseEntity<String> updateProductInCart(@RequestBody Product product) {
-        cartService.updateProduct(String.valueOf(product.getId()), product.getQuantity());
+        cartService.updateProduct(product(id), product.getQuantity());
         return ResponseEntity.ok("Product updated in cart");
     }
 

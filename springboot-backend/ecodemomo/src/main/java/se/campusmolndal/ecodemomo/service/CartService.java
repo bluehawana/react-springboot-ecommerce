@@ -14,21 +14,21 @@ public class CartService {
     @Autowired
     private ProductService productService;
 
-    public Cart addProduct(String productId, Integer quantity) {
+    public Cart addProduct(Long productId, Integer quantity) {
         Cart cart = cartRepository.findById("1").orElse(new Cart());
         Product product = productService.getProductById(productId);
         cart.addProduct(product);
         return cartRepository.save(cart);
     }
 
-    public Cart removeProduct(String productId) {
+    public Cart removeProduct(Long productId) {
         Cart cart = cartRepository.findById("1").orElse(new Cart());
         Product product = productService.getProductById(productId);
         cart.removeProduct(product);
         return cartRepository.save(cart);
     }
 
-    public Cart updateProduct(String productId, Integer quantity) {
+    public Cart updateProduct(Long productId, Integer quantity) {
         Cart cart = cartRepository.findById("1").orElse(new Cart());
         Product product = productService.getProductById(productId);
         cart.updateProduct(product, quantity);

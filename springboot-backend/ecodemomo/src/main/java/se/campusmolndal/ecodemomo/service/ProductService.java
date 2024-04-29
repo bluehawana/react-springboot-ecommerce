@@ -33,9 +33,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(String id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+
     public void addProducts() {
      Product product1 = new Product();
      product1.setId(1L);

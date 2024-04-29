@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import se.campusmolndal.ecodemomo.model.Product;
 import se.campusmolndal.ecodemomo.service.ProductService;
 import se.campusmolndal.ecodemomo.service.CartService;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -28,19 +30,26 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        // Method implementation to fetch and return the product by ID
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            return ResponseEntity.ok(product.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/products/{id}/add")
-    public ResponseEntity<String> addProductToCart(@PathVariable String id) {
-        Product product = productService.getProductById(id);
-        cartService.addProduct(product);
-        return ResponseEntity.ok("Product added to cart");
+    public ResponseEntity<Product> addProductToCart(@PathVariable Long id) {
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            cartService.addProduct(product.get());
+            return ResponseEntity.ok(product.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok((List<Product>) productService.getAllProducts());
+        return ResponseEntity.ok(productService.getAllProducts());
     }
     // other methods
 }
